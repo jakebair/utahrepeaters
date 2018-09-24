@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { coreDirectives } from '@agm/core/core.module';
+import { LayoutService } from 'angular-admin-lte';
 
 @Component({
     selector: 'app-root',
@@ -7,46 +7,15 @@ import { coreDirectives } from '@agm/core/core.module';
     styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-    title = 'utahrepeaters';
-    latitude = 40.7608;
-    longitude = -111.8910;
-    zoom = 8;
+    public customLayout = false;
 
-    markers: Marker[] = [];
+    constructor(
+        private layoutService: LayoutService
+    ) { }
 
     ngOnInit() {
-        if (window.navigator.geolocation) {
-            window.navigator.geolocation.getCurrentPosition(this.setPosition.bind(this));
-        }
+        this.layoutService.isCustomLayout.subscribe((value: boolean) => {
+            this.customLayout = value;
+        });
     }
-
-    setPosition(position) {
-        // center map on user
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-
-        // create a marker
-        const positionMarker: Marker = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-            label: 'Current Location',
-            draggable: true,
-            animation: 'DROP',
-            iconUrl: '/'
-        };
-        this.markers.push(positionMarker);
-    }
-
-    markerDragEnd(m: Marker, $event: MouseEvent) {
-        this.setPosition($event);
-    }
-}
-
-interface Marker {
-    latitude: number;
-    longitude: number;
-    label?: string;
-    draggable: boolean;
-    animation: string;
-    iconUrl: string;
 }
