@@ -24,7 +24,7 @@
         "@types/googlemaps": "^3.30.13",
         "admin-lte-css": "^2.4.3",
         "angular-admin-lte": "^1.2.7",
-        "bootstrap-css-only": "^4.1.1",
+        "bootstrap-css-only": "^3.3.6",
         "core-js": "^2.5.4",
         "font-awesome": "^4.7.0",
         "ionicons": "^4.4.3",

@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
+import { MarkerService } from '../marker.service';
+import { Marker } from '../marker';
 
 @Component({
   selector: 'app-map',
@@ -10,13 +14,25 @@ export class MapComponent implements OnInit {
     latitude = 40.7608;
     longitude = -111.8910;
     zoom = 8;
+    section = 'default';
 
     markers: Marker[] = [];
+
+    constructor(
+        private route: ActivatedRoute,
+        private router: Router,
+        private service: MarkerService
+    ) {}
 
     ngOnInit() {
         if (window.navigator.geolocation) {
             window.navigator.geolocation.getCurrentPosition(this.setPosition.bind(this));
         }
+
+        this.markers$ = this.route.paramMap.pipe(
+            switchMap((params: ParamMap) =>
+                this.service.getMarkers(params.get('section'))
+          ));
     }
 
     setPosition(position) {
@@ -41,12 +57,5 @@ export class MapComponent implements OnInit {
     }
 }
 
-interface Marker {
-    latitude: number;
-    longitude: number;
-    label?: string;
-    draggable: boolean;
-    animation: string;
-    iconUrl: string;
-}
+
 

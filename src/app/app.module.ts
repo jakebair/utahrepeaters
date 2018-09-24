@@ -12,6 +12,9 @@ import { MapComponent } from './map/map.component';
 
 const appRoutes: Routes = [
     {
+        path: 'map/:section', component: MapComponent
+    },
+    {
         path: '',
         redirectTo: '/map',
         pathMatch: 'full'
