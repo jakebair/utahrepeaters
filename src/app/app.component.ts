@@ -7,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'utahrepeaters';
+  latitude = 40.7608;
+  longitude = -111.8910;
 }
