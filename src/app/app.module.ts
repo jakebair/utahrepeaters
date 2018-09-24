@@ -11,7 +11,7 @@ import { AppComponent } from './app.component';
   imports: [
     BrowserModule,
     AgmCoreModule.forRoot({
-      apiKey:'AIzaSyA283KmhNJPT5UGp1PEljVUok2ZJ47V_D0'
+      apiKey: 'AIzaSyA283KmhNJPT5UGp1PEljVUok2ZJ47V_D0'
     })
   ],
   providers: [],

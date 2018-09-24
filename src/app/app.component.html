@@ -1,10 +1,4 @@
-<agm-map 
-  [latitude]="latitude" 
-  [longitude]="longitude"
-  [zoom]="zoom">
-    <agm-marker *ngFor="let m of markers; let i = index"
-      [latitude]="m.latitude" 
-      [longitude]="m.longitude"
-      [label]="m.label">
+<agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
+    <agm-marker *ngFor="let m of markers; let i = index" [latitude]="m.latitude" [longitude]="m.longitude" [label]="m.label" [markerDraggable]="m.draggable" (dragEnd)="markerDragEnd(m, $event)">
     </agm-marker>
 </agm-map>
