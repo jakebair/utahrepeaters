@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MarkerService } from '../marker.service';
 import { Marker } from '../marker';
 
@@ -29,10 +28,20 @@ export class MapComponent implements OnInit {
             window.navigator.geolocation.getCurrentPosition(this.setPosition.bind(this));
         }
 
-        this.markers$ = this.route.paramMap.pipe(
-            switchMap((params: ParamMap) =>
-                this.service.getMarkers(params.get('section'))
-          ));
+        this.getMarkers();
+    }
+
+    getMarkers() {
+        this.route.paramMap.subscribe(params => {
+            const section = params.get('section');
+
+            if(section) {
+                this.service.getMarkers(section).subscribe(markers => {
+                    markers.push(this.getPosition())
+                    this.markers = markers
+                });
+            }
+        })
     }
 
     setPosition(position) {
@@ -40,16 +49,19 @@ export class MapComponent implements OnInit {
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
 
-        // create a marker
-        const positionMarker: Marker = {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
+        this.markers.push(this.getPosition());
+    }
+
+    getPosition() {
+        const marker: Marker = {
+            latitude: this.latitude,
+            longitude: this.longitude,
             label: 'Current Location',
             draggable: true,
             animation: 'DROP',
-            iconUrl: '/'
-        };
-        this.markers.push(positionMarker);
+            iconUrl: '/' 
+        }
+        return marker;
     }
 
     markerDragEnd(m: Marker, $event: MouseEvent) {
